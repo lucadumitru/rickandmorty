@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html.lock {
+  overflow: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
+main {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: red;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 7px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.485);
+  border-radius: 14px;
+  /* border: 3px solid red; */
+}
+
+.arrow-right-icon::before {
+  position: absolute;
+  content: "";
+  width: 24px;
+  height: 24px;
+  top: 50%;
+  transform: translate(0, -50%);
+  right: 5px;
+  background-image: url("./../../public/icons/chevron-right.svg");
+  transition: all 0.3s ease 0s;
+}
+
+.arrow-right-icon:hover::before {
+  transition: all 0.3s ease 0s;
+  right: 0px;
+}
