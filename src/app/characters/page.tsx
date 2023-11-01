@@ -19,13 +19,14 @@ const CharactersPage = () => {
   const [, setSelectedGender] = useState("");
   const debouncedValue = useDebounce(inputValue, 500);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { characters, error, size, setSize, isLoading, isValidating } = useCharacters(
+  const { characters, error, size, setSize, isValidating } = useCharacters(
     debouncedValue,
     selectedStatus,
     selectedGender
   );
   const pages = characters ? characters[0].info.pages : null;
   const allCharacters = characters ? characters.flatMap((arr) => arr.results) : [];
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     inputValue = e.target.value;
@@ -61,7 +62,7 @@ const CharactersPage = () => {
             onChange={handleGenderSelect}
           />
         </div>
-        <CharactersCards characters={allCharacters} isLoading={isLoading} />
+        <CharactersCards characters={allCharacters} />
         {isValidating && <SkeletonCards className="mt-[20px]" variants="characters" />}
         {error && <div>Not found</div>}
         <LoadMoreBtn pages={pages as number} setSize={setSize} size={size} />

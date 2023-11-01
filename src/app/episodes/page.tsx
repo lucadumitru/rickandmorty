@@ -15,7 +15,7 @@ const EpisodesPage = () => {
   const [, setInputValue] = useState("");
   const debouncedValue = useDebounce(inputValue, 500);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { episodes, error, size, setSize, isLoading, isValidating } = useEpisodes(debouncedValue);
+  const { episodes, error, size, setSize, isValidating } = useEpisodes(debouncedValue);
   const pages = episodes ? episodes[0].info.pages : null;
   const allEpisodes = episodes ? episodes.flatMap((arr: IEpisodes) => arr.results) : [];
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +32,7 @@ const EpisodesPage = () => {
           value={inputValue}
           onChange={handleInputChange}
         />
-        <EpisodesCards allEpisodes={allEpisodes} isLoading={isLoading} />
+        <EpisodesCards allEpisodes={allEpisodes} />
         {isValidating && <SkeletonCards variants="episodes" />}
         {error && <div>Not found</div>}
         <LoadMoreBtn pages={pages as number} setSize={setSize} size={size} />

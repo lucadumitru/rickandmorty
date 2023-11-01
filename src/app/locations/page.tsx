@@ -20,7 +20,7 @@ const LocationsPage = () => {
   const [, setSelectedDimension] = useState("");
   const debouncedValue = useDebounce(inputValue, 500);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { locations, error, size, setSize, isLoading, isValidating } = useLocations(
+  const { locations, error, size, setSize, isValidating } = useLocations(
     debouncedValue,
     selectedType,
     selectedDimension
@@ -58,7 +58,7 @@ const LocationsPage = () => {
             onChange={handleDimensionSelect}
           />
         </div>
-        <LocationsCards allLocations={allLocations} isLoading={isLoading} />
+        <LocationsCards allLocations={allLocations} />
         {isValidating && <SkeletonCards variants="locations" />}
         {error && <div>Not found</div>}
         <LoadMoreBtn pages={pages as number} setSize={setSize} size={size} />
