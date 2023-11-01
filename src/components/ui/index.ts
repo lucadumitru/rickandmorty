@@ -10,3 +10,4 @@ export * from "./Select";
 export * from "./Grid";
 export * from "./LoadMoreBtn";
 export * from "./HeroImg";
+export * from "./BackBtn";

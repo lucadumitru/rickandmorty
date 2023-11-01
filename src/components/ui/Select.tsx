@@ -3,7 +3,7 @@ import arrowDown from "public/icons/arrow-drop-down.svg";
 import type { ChangeEvent } from "react";
 
 interface SelectProps {
-  options: string[];
+  options?: string[];
   label: string;
   value: string;
   onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
@@ -23,14 +23,16 @@ export const Select: React.FC<SelectProps> = ({ options, label, value, onChange 
       value={value}
       onChange={onChange}
     >
-      <option disabled value="">
+      <option disabled hidden value="">
         {label}
       </option>
-      {options.map((option, index) => (
-        <option key={index} className="capitalize" value={option}>
-          {option}
-        </option>
-      ))}
+      {options &&
+        options.map((option, index) => (
+          <option key={index} className="capitalize" value={option}>
+            {option}
+          </option>
+        ))}
+      <option value="">All</option>
     </select>
   </div>
 );

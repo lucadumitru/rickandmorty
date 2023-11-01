@@ -8,7 +8,14 @@ html.lock {
   overscroll-behavior: none;
 }
 
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 main {
+  flex: 1 0 auto;
   padding-top: 60px;
   padding-bottom: 40px;
 }
@@ -47,7 +54,16 @@ main {
   transition: all 0.3s ease 0s;
 }
 
-.arrow-right-icon:hover::before {
-  transition: all 0.3s ease 0s;
-  right: 0px;
+.arrow-back::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  background-image: url("./../../public/icons/arrow-back.svg");
+}
+
+@media (any-hover: hover) {
+  .arrow-right-icon:hover::before {
+    transition: all 0.3s ease 0s;
+    right: 0px;
+  }
 }

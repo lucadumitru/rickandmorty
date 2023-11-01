@@ -14,7 +14,7 @@ export const SkeletonCards: React.FC<SkeletonCardsProps> = ({ className, variant
         role="status"
       >
         {variants === "characters" && (
-          <div className="bg-gray-300 xsm:h-[170px] mb-4 flex h-[230px] w-full items-center justify-center rounded">
+          <div className="bg-gray-300 xsm:h-[160px] mb-4 flex h-[215px] w-full items-center justify-center rounded">
             <svg
               aria-hidden="true"
               className="text-gray-200 dark:text-gray-600 h-10 w-10"
@@ -29,8 +29,8 @@ export const SkeletonCards: React.FC<SkeletonCardsProps> = ({ className, variant
         )}
         <div
           className={`flex flex-col  px-[16px] py-[12px] ${
-            variants === ("episodes" || "locations") && "items-center"
-          } ${variants === "episodes" && "py-[26px]"} ${variants === "locations" && "py-[38px]"}`}
+            variants !== "characters" && "items-center"
+          } ${variants === "episodes" && "py-[40px]"} ${variants === "locations" && "py-[45px]"}`}
         >
           {variants === "episodes" && (
             <div className="bg-gray-200 mb-8 h-2.5 w-[50%] rounded-full" />

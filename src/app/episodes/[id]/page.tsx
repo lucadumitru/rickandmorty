@@ -1,22 +1,24 @@
-import { CharactersCards, Test } from "@/components";
-import { Container } from "@/components/ui";
+import { CharactersCards } from "@/components";
+import { BackBtn, Container } from "@/components/ui";
 import { getCharacter, getEpisode } from "@/utils/api";
 import type { ICharacter, IEpisode } from "@/utils/types/types";
 
 interface EpisodePageParams {
   params: {
-    id: number;
+    id: string;
   };
 }
 
 const EpisodePage: React.FC<EpisodePageParams> = async ({ params }) => {
   const episode = (await getEpisode(params.id)) as IEpisode;
-  const charactersIds = episode.characters.map((url: string) => url.match(/\d+$/)[0]).join(", ");
+  const charactersIds = episode.characters
+    .map((url: string) => url.match(/\d+$/) ?? [0])
+    .join(", ");
   const charactersCast = (await getCharacter(charactersIds)) as ICharacter[];
-
   return (
     <main>
       <Container>
+        <BackBtn className="top-[20px] mb-[17px] mr-auto sm:top-[44px] sm:mb-0" />
         <div>
           <div className="pt-[30px] text-center [&:not(:last-child)]:mb-[25px] [&:not(:last-child)]:md:mb-[65px]">
             <h1 className="text-[25px] md:text-[36px] [&:not(:last-child)]:mb-[24px]">

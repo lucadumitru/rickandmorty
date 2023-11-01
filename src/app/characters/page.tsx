@@ -2,12 +2,11 @@
 
 import type { ChangeEvent } from "react";
 import { useState } from "react";
-import useSWRInfinite from "swr/infinite";
 
 import { CharactersCards } from "@/components";
 import { Container, HeroImg, Input, LoadMoreBtn, Select, SkeletonCards } from "@/components/ui";
 import { gender, status } from "@/utils";
-import { fetcher } from "@/utils/api/api";
+import { useCharacters } from "@/utils/api";
 import { useDebounce } from "@/utils/hooks";
 
 let inputValue = "" as string;
@@ -19,16 +18,14 @@ const CharactersPage = () => {
   const [, setSelectedStatus] = useState("");
   const [, setSelectedGender] = useState("");
   const debouncedValue = useDebounce(inputValue, 500);
-  const { data, error, size, setSize, isLoading, isValidating } = useSWRInfinite(
-    (pageIndex) =>
-      `https://rickandmortyapi.com/api/character/?page=${
-        pageIndex + 1
-      }&name=${debouncedValue}&status=${selectedStatus}&gender=${selectedGender}`,
-    fetcher
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { characters, error, size, setSize, isLoading, isValidating } = useCharacters(
+    debouncedValue,
+    selectedStatus,
+    selectedGender
   );
-  const pages = data ? data[0].info.pages : null;
-  const allCharacters = data ? data.flatMap((arr) => arr.results) : [];
-
+  const pages = characters ? characters[0].info.pages : null;
+  const allCharacters = characters ? characters.flatMap((arr) => arr.results) : [];
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     inputValue = e.target.value;
@@ -43,7 +40,7 @@ const CharactersPage = () => {
   };
   return (
     <main>
-      <Container className="flex flex-col items-center pb-[50px]">
+      <Container className="flex flex-col items-center">
         <HeroImg />
         <div className="mb-[25px] grid w-full gap-[20px]  sm:grid-cols-4 md:mb-[60px]">
           <Input

@@ -2,28 +2,25 @@
 
 import type { ChangeEvent } from "react";
 import { useState } from "react";
-import useSWRInfinite from "swr/infinite";
 
 import { EpisodesCards } from "@/components";
 import { Container, HeroImg, Input, LoadMoreBtn, SkeletonCards } from "@/components/ui";
-import { fetcher } from "@/utils/api/api";
+import { useEpisodes } from "@/utils/api/client/swr";
 import { useDebounce } from "@/utils/hooks";
+import type { IEpisodes } from "@/utils/types";
 
 let inputValue = "" as string;
 
 const EpisodesPage = () => {
   const [, setInputValue] = useState("");
   const debouncedValue = useDebounce(inputValue, 500);
-  const { data, error, size, setSize, isLoading, isValidating } = useSWRInfinite(
-    (pageIndex) =>
-      `https://rickandmortyapi.com/api/episode/?page=${pageIndex + 1}&name=${debouncedValue}`,
-    fetcher
-  );
-  const pages = data ? data[0].info.pages : null;
-  const allEpisodes = data ? data.flatMap((arr) => arr.results) : [];
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { episodes, error, size, setSize, isLoading, isValidating } = useEpisodes(debouncedValue);
+  const pages = episodes ? episodes[0].info.pages : null;
+  const allEpisodes = episodes ? episodes.flatMap((arr: IEpisodes) => arr.results) : [];
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-    return (inputValue = e.target.value);
+    inputValue = e.target.value;
   };
   return (
     <main>

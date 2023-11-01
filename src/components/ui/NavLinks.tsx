@@ -1,14 +1,15 @@
 import Link from "next/link";
+import { karla } from "public/fonts/fonts";
 
-import { karla } from "@/assets/fonts/fonts";
 import { ROUTES } from "@/utils";
 
 interface NavLinksProps {
   isOpen: boolean;
   variant: "desktop" | "mobile";
+  closeMenu?: () => void;
 }
 
-export const NavLinks: React.FC<NavLinksProps> = ({ isOpen, variant }) => (
+export const NavLinks: React.FC<NavLinksProps> = ({ isOpen, variant, closeMenu }) => (
   <div
     className={` ${
       variant === "desktop"
@@ -26,17 +27,17 @@ export const NavLinks: React.FC<NavLinksProps> = ({ isOpen, variant }) => (
         }`}
       >
         <li>
-          <Link className="hover:underline" href={ROUTES.CHARACTERS}>
+          <Link className="hover:underline" href={ROUTES.CHARACTERS} onClick={closeMenu}>
             Characters
           </Link>
         </li>
         <li>
-          <Link className="hover:underline" href={ROUTES.LOCATIONS}>
+          <Link className="hover:underline" href={ROUTES.LOCATIONS} onClick={closeMenu}>
             Locations
           </Link>
         </li>
         <li>
-          <Link className="hover:underline" href={ROUTES.EPISODES}>
+          <Link className="hover:underline" href={ROUTES.EPISODES} onClick={closeMenu}>
             Episodes
           </Link>
         </li>
