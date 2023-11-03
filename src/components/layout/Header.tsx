@@ -7,9 +7,11 @@ import { BurgerIcon, Container, Logo, NavLinks } from "@/components/ui";
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const closeMenuOnClick = () => {
+    const html = document.querySelector("html");
     if (isOpen) {
       setIsOpen((prev) => !prev);
     }
+    html?.classList.remove("lock");
   };
   return (
     <header className="fixed z-50 w-full before:absolute before:left-0 before:top-0  before:z-50 before:h-full before:w-full before:bg-white before:shadow-headerShadow before:content-[''] ">

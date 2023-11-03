@@ -11,7 +11,7 @@ export const BackBtn: React.FC<BackBtnProps> = ({ className }) => {
   const router = useRouter();
   return (
     <button
-      className={`arrow-back ${className} relative flex items-center gap-2 text-[18px] font-bold capitalize ${karla.className}`}
+      className={`arrow-back ${className} relative flex items-center gap-2 text-[18px] font-bold capitalize hover:underline ${karla.className}`}
       onClick={() => router.back()}
     >
       GO BACK

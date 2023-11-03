@@ -15,7 +15,7 @@ const Home = async () => {
   const randomCharacters = (await getCharacter(randomCharactersIds)) as ICharacter[];
   return (
     <main>
-      <Container className="flex flex-col items-center gap-y-12 pt-10">
+      <Container className="flex flex-col items-center gap-y-16 pt-10">
         <Image alt="Rick and Morty" src={mainImage as string} />
         <Grid>
           {randomCharacters.map((character: ICharacter) => (

@@ -1,8 +1,22 @@
 import Image from "next/image";
+import type { Metadata } from "next/types";
 
 import { BackBtn, Container } from "@/components/ui";
 import { getCharacter, getEpisode } from "@/utils/api";
 import type { ICharacter, IEpisode } from "@/utils/types";
+
+type Props = {
+  params: { id: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = params;
+  const character = (await getCharacter(id)) as ICharacter;
+  return {
+    title: `Chatacter - ${character.name}`
+  };
+}
 
 interface CharacterProps {
   params: {
@@ -15,10 +29,11 @@ const Character: React.FC<CharacterProps> = async ({ params }) => {
   const episodesIds = character.episode.map((url: string) => url.match(/\d+$/) ?? [0]).join(", ");
   const episodes = (await getEpisode(episodesIds)) as IEpisode[];
   const episode = (await getEpisode(episodesIds)) as IEpisode;
+  const locationId = character.location.url.match(/\d+$/) ?? [0].join();
   return (
     <main>
       <Container className="flex flex-col items-center">
-        <BackBtn className="top-[20px] mb-[17px] mr-auto sm:top-[44px] sm:mb-0" />
+        <BackBtn className="top-[20px] mb-[17px] mr-auto sm:mb-0 md:top-[44px]" />
         <div className="mt-[16px] flex w-full max-w-[850px] flex-col items-center">
           <div className="flex flex-col content-center items-center gap-[16px] [&:not(:last-child)]:mb-[48px]">
             <Image
@@ -36,35 +51,35 @@ const Character: React.FC<CharacterProps> = async ({ params }) => {
                 Information
               </div>
               <ul>
-                <li className="border-lightGray border-b-[2px]  px-[16px] py-[10px]">
+                <li className="border-b-[2px] border-lightGray  px-[16px] py-[10px]">
                   <div className="font-bold">Gender</div>
-                  <div className="text-textGray text-[14px]">{character.gender}</div>
+                  <div className="text-[14px] text-textGray">{character.gender}</div>
                 </li>
-                <li className="border-lightGray border-b-[2px]  px-[16px] py-[10px]">
+                <li className="border-b-[2px] border-lightGray  px-[16px] py-[10px]">
                   <div className="font-bold">Status</div>
-                  <div className="text-textGray text-[14px]">{character.status}</div>
+                  <div className="text-[14px] text-textGray">{character.status}</div>
                 </li>
-                <li className="border-lightGray border-b-[2px]  px-[16px] py-[10px]">
+                <li className="border-b-[2px] border-lightGray  px-[16px] py-[10px]">
                   <div className="font-bold">Specie</div>
-                  <div className="text-textGray text-[14px] capitalize">{character.species}</div>
+                  <div className="text-[14px] capitalize text-textGray">{character.species}</div>
                 </li>
-                <li className="border-lightGray border-b-[2px]  px-[16px] py-[10px]">
+                <li className="border-b-[2px] border-lightGray  px-[16px] py-[10px]">
                   <div className="font-bold">Origin</div>
-                  <div className="text-textGray text-[14px] capitalize">
+                  <div className="text-[14px] capitalize text-textGray">
                     {character.origin.name}
                   </div>
                 </li>
-                <li className="border-lightGray border-b-[2px]  px-[16px] py-[10px]">
+                <li className="border-b-[2px] border-lightGray  px-[16px] py-[10px]">
                   <div className="font-bold">Type</div>
-                  <div className="text-textGray text-[14px]">{character.type || "Unknown"}</div>
+                  <div className="text-[14px] text-textGray">{character.type || "Unknown"}</div>
                 </li>
                 <li>
                   <a
-                    className="arrow-right-icon border-lightGray group relative block border-b-[2px]  px-[16px] py-[10px]"
-                    href="/"
+                    className="arrow-right-icon group relative block border-b-[2px] border-lightGray  px-[16px] py-[10px]"
+                    href={`/locations/${locationId as string}`}
                   >
-                    <div className="font-bold group-hover:underline">Location</div>
-                    <div className="text-textGray text-[14px]">{character.location.name}</div>
+                    <span className="font-bold group-hover:underline">Location</span>
+                    <div className="text-[14px] text-textGray">{character.location.name}</div>
                   </a>
                 </li>
               </ul>
@@ -82,8 +97,8 @@ const Character: React.FC<CharacterProps> = async ({ params }) => {
                         href={`/episodes/${episode.id}`}
                       >
                         <div className="font-bold group-hover:underline">{episode.episode}</div>
-                        <div className="text-textGray text-[14px]">{episode.name}</div>
-                        <div className="text-textGray text-[12px] uppercase tracking-[1.5px]">
+                        <div className="text-[14px] text-textGray">{episode.name}</div>
+                        <div className="text-[12px] uppercase tracking-[1.5px] text-textGray">
                           {episode.air_date}
                         </div>
                       </a>
@@ -96,8 +111,8 @@ const Character: React.FC<CharacterProps> = async ({ params }) => {
                       href={`/episodes/${episode.id}`}
                     >
                       <div className="font-bold group-hover:underline">{episode.episode}</div>
-                      <div className="text-textGray text-[14px]">{episode.name}</div>
-                      <div className="text-textGray text-[12px] uppercase tracking-[1.5px]">
+                      <div className="text-[14px] text-textGray">{episode.name}</div>
+                      <div className="text-[12px] uppercase tracking-[1.5px] text-textGray">
                         {episode.air_date}
                       </div>
                     </a>

@@ -1,7 +1,22 @@
+import type { Metadata } from "next/types";
+
 import { CharactersCards } from "@/components";
 import { BackBtn, Container } from "@/components/ui";
 import { getCharacter, getEpisode } from "@/utils/api";
 import type { ICharacter, IEpisode } from "@/utils/types/types";
+
+type Props = {
+  params: { id: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = params;
+  const episode = (await getEpisode(id)) as IEpisode;
+  return {
+    title: `Episode - ${episode.name}`
+  };
+}
 
 interface EpisodePageParams {
   params: {
@@ -18,27 +33,27 @@ const EpisodePage: React.FC<EpisodePageParams> = async ({ params }) => {
   return (
     <main>
       <Container>
-        <BackBtn className="top-[20px] mb-[17px] mr-auto sm:top-[44px] sm:mb-0" />
+        <BackBtn className="top-[20px] mb-[17px] mr-auto sm:mb-0 md:top-[44px]" />
         <div>
-          <div className="pt-[30px] text-center [&:not(:last-child)]:mb-[25px] [&:not(:last-child)]:md:mb-[65px]">
+          <div className="mx-auto pt-[30px] text-center md:max-w-[550px]  [&:not(:last-child)]:mb-[25px] [&:not(:last-child)]:md:mb-[65px]">
             <h1 className="text-[25px] md:text-[36px] [&:not(:last-child)]:mb-[24px]">
               {episode.name}
             </h1>
-            <div className="mx-auto flex max-w-md justify-between text-left ">
+            <div className="mx-auto flex max-w-md justify-between gap-x-5 text-left ">
               <div>
                 <div className="font-bold">Episode</div>
-                <div className="text-textGray text-[14px] tracking-[0.25px]">{episode.episode}</div>
+                <div className="text-[14px] tracking-[0.25px] text-textGray">{episode.episode}</div>
               </div>
               <div>
                 <div className="font-bold">Date</div>
-                <div className="text-textGray text-[14px] uppercase tracking-[0.25px]">
+                <div className="text-[14px] uppercase tracking-[0.25px] text-textGray">
                   {episode.air_date}
                 </div>
               </div>
             </div>
           </div>
           <div>
-            <div className="text-textGray text-[20px] font-medium [&:not(:last-child)]:mb-[20px]">
+            <div className="text-[20px] font-medium text-textGray [&:not(:last-child)]:mb-[20px]">
               Cast
             </div>
             <CharactersCards characters={charactersCast} />
